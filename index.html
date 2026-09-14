@@ -782,7 +782,7 @@
 
                     <!-- Social Icons -->
                     <div class="flex gap-4 justify-center lg:justify-start reveal" style="transition-delay: 0.5s;">
-                        <a href="https://github.com/hameedkhan0"
+                        <a href="#"
                             class="w-12 h-12 rounded-full glass flex items-center justify-center text-gold-400 hover:bg-gold-400 hover:text-black transition-all hover:scale-110">
                             <i class="fab fa-github text-lg"></i>
                         </a>
@@ -1521,35 +1521,35 @@
             </div>
 
             <div class="grid lg:grid-cols-2 gap-12">
-                <!-- Contact Form -->
-                <div class="glass rounded-2xl p-8 reveal">
-                    <h3 class="font-serif text-2xl font-bold mb-6">Send a Message</h3>
-                    <form id="contact-form" class="space-y-6">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium mb-2">Name</label>
-                                <input type="text" class="form-input" placeholder="Your name" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-2">Email</label>
-                                <input type="email" class="form-input" placeholder="your@email.com" required>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Subject</label>
-                            <input type="text" class="form-input" placeholder="Project inquiry" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Message</label>
-                            <textarea class="form-input h-32 resize-none" placeholder="Tell me about your project..."
-                                required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary w-full">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Send Message
-                        </button>
-                    </form>
-                </div>
+                <form id="contact-form" class="space-y-6">
+    <div class="grid md:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm font-medium mb-2">Name</label>
+            <input type="text" name="name" class="form-input" placeholder="Your name" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-2">Email</label>
+            <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+        </div>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-2">Subject</label>
+        <input type="text" name="subject" class="form-input" placeholder="Project inquiry" required>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-2">Message</label>
+        <textarea name="message" class="form-input h-32 resize-none"
+            placeholder="Tell me about your project..." required></textarea>
+    </div>
+
+    <button type="submit" class="btn-primary w-full">
+        <i class="fas fa-paper-plane mr-2"></i>
+        Send Message
+    </button>
+</form>
 
                 <!-- Contact Info -->
                 <div class="space-y-8 reveal">
@@ -1591,7 +1591,7 @@
                         <div class="mt-8 pt-8 border-t border-gray-700">
                             <h4 class="font-semibold mb-4">Follow Me</h4>
                             <div class="flex gap-4">
-                                <a href="https://github.com/hameedkhan0"
+                                <a href="#"
                                     class="w-10 h-10 rounded-full glass flex items-center justify-center text-gold-400 hover:bg-gold-400 hover:text-black transition-all">
                                     <i class="fab fa-github"></i>
                                 </a>
@@ -1611,7 +1611,7 @@
                         </div>
                     </div>
 
-                     <!-- Google Maps -->
+                    <!-- Google Maps -->
                     <div class="rounded-2xl overflow-hidden border border-gray-700 h-80">
                         <iframe
                             src="https://www.google.com/maps?q=Dera%20Ismail%20Khan%2C%20Khyber%20Pakhtunkhwa%2C%20Pakistan&output=embed"
@@ -1677,7 +1677,7 @@
                     &copy; 2026 Hameed Khan. All rights reserved.
                 </p>
                 <div class="flex gap-4">
-                    <a href="https://github.com/hameedkhan0"
+                    <a href="#"
                         class="w-8 h-8 rounded-full glass flex items-center justify-center text-gold-400 hover:bg-gold-400 hover:text-black transition-all text-sm">
                         <i class="fab fa-github"></i>
                     </a>
@@ -2020,13 +2020,6 @@
             goToSlide(currentSlide);
         }, 5000);
 
-        // Contact Form
-        document.getElementById('contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Thank you for your message! I will get back to you soon.');
-            e.target.reset();
-        });
-
         // Smooth Scroll for Navigation Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -2041,6 +2034,46 @@
             });
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    emailjs.init({
+        publicKey: "7TN-NmLzgnzNoWSb7"
+    });
+
+    document.getElementById("contact-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const form = this;
+        const button = form.querySelector('button[type="submit"]');
+
+        const originalText = button.innerHTML;
+
+        button.disabled = true;
+        button.innerHTML =
+            '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+
+        emailjs.sendForm(
+            "service_hkv2uoo",
+            "template_e963jk1",
+            form
+        )
+        .then(function() {
+            alert("Message sent successfully! Thank you.");
+            form.reset();
+        })
+        .catch(function(error) {
+            console.error("EmailJS Error:", error);
+            alert("Message could not be sent. Please try again.");
+        })
+        .finally(function() {
+            button.disabled = false;
+            button.innerHTML = originalText;
+        });
+    });
+</script>
+
 </body>
 
 </html>
